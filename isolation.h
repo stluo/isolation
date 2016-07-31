@@ -17,7 +17,7 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 800;
 
 //forward delcarlation
-class Texture;
+//class Texture;
 
 //start up SDL create window
 bool init();
@@ -29,18 +29,18 @@ bool load_media();
 void close();
 
 //load global front
-TTF_Font* g_font = NULL;
+extern TTF_Font* g_font;
 
 //window
-SDL_Window* g_window = NULL;
+extern SDL_Window* g_window;
 
 //renderer
-SDL_Renderer* g_renderer = NULL;
+extern SDL_Renderer* g_renderer;
 
 //load jpeg + font
 //Texture background_texture;
 
 //rendered font texture
-Texture g_text_texture;
+extern Texture g_text_texture;
 
 #endif
