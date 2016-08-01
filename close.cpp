@@ -1,5 +1,5 @@
 #include "isolation.h"
-//#include "texture.h"
+
 
 void close() {
     //free loaded text

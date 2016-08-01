@@ -1,5 +1,4 @@
 #include "isolation.h"
-//#include "texture.h"
 
 bool load_media() {
   bool success = true;

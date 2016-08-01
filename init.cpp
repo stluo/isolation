@@ -1,5 +1,4 @@
 #include "isolation.h"
-//#include "texture.h"
 
 //font
 TTF_Font* g_font = NULL;

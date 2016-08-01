@@ -1,5 +1,4 @@
 #include "isolation.h"
-//#include "texture.h"
 
 int main( int argc, char* args[] ) {
   //start up SDL
