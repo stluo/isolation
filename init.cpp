@@ -7,7 +7,7 @@ SDL_Window* g_window = NULL;
 //renderer
 SDL_Renderer* g_renderer = NULL;
 //load jpeg + font
-//Texture background_texture;
+Texture background_texture;
 //rendered font texture
 Texture g_text_texture;
 

@@ -38,7 +38,7 @@ extern SDL_Window* g_window;
 extern SDL_Renderer* g_renderer;
 
 //load jpeg + font
-//Texture background_texture;
+extern Texture background_texture;
 
 //rendered font texture
 extern Texture g_text_texture;

@@ -1,6 +1,5 @@
 #include "isolation.h"
 
-
 void close() {
     //free loaded text
     g_text_texture.free();

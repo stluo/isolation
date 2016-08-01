@@ -9,9 +9,6 @@
 #include <stdio.h>
 #include <string>
 
-//include headers
-//#include "isolation.h"
-
 class Texture {
   public:
     //initializes variables
