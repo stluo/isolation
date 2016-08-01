@@ -29,5 +29,6 @@ texture.o : isolation.h texture.h texture.cpp
 load_media.o : isolation.h load_media.cpp
 	$(CC) $(C_COMPILER_FLAGS) $(LINKER_FLAGS) load_media.cpp
 
+.PHONY : clean
 clean:
-	\rm *.o *~ run
+	-rm $(OBJS) $(OBJ_NAME)
