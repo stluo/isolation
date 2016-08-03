@@ -1,0 +1,15 @@
+CXX = g++                     # compiler
+CXXFLAGS = -g -Wall -MMD      # compiler flags
+LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+OBJECTS = close.o init.o load_media.o main.o texture.o
+OBJ = close.cpp init.cpp load_media.cpp main.cpp texture.cpp      # object files forming executable
+DEPENDS = ${OBJECTS:.o=.d}    # substitutes ".o" with ".d"
+EXEC = a.out                  # executable name
+
+${EXEC} : OBJ/${OBJECTS}          # link step
+	${CXX} ${CXXFLAGS} ${LDFLAGS} ${OBJECTS} -o ${EXEC}
+
+${OBJECTS} : SRC/${OBJ}
+	${CXX} ${CXXFLAGS} SRC/${OBJ} -o OBJ/$@
+
+-include ${DEPENDS}           # copies files x.d, y.d, z.d (if they exist)

@@ -1,34 +1,30 @@
-OBJS = close.o init.o main.o texture.o load_media.o
-CC = g++
-COMPILER_FLAGS = -w
-C_COMPILER_FLAGS = -c -w
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
-OBJ_NAME = run
+CXX = g++
+CXXFLAGS = -c -Wall -Wextra
+LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -Wall -Wextra
+OBJS = OBJ/close.o OBJ/init.o OBJ/main.o OBJ/texture.o OBJ/load_media.o
 
-all : exe
+TARGET = run
 
-debug : COMPILER_FLAGS += -g
+all : $(TARGET)
+
+debug : CXXFLAGS += -g
 debug : C_COMPILER_FLAGS += -g
-debug : exe
+debug : all
 
-exe : $(OBJS)
-	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+$(TARGET) : $(OBJS)
+	$(CXX) $(OBJS) $(LDFLAGS) -o $(TARGET)
 
-close.o : isolation.h close.cpp
-	$(CC) $(C_COMPILER_FLAGS) $(LINKER_FLAGS) close.cpp
+OBJ/close.o : SRC/close.cpp SRC/isolation.h
+	$(CXX) $(CXXFLAGS) $< -o $@
 
-init.o : isolation.h init.cpp
-	$(CC) $(C_COMPILER_FLAGS) $(LINKER_FLAGS) init.cpp
+OBJ/init.o : SRC/init.cpp SRC/isolation.h
+	$(CXX) $(CXXFLAGS) $< -o $@
 
-main.o : isolation.h main.cpp
-	$(CC) $(C_COMPILER_FLAGS) $(LINKER_FLAGS) main.cpp
+OBJ/main.o : SRC/main.cpp SRC/isolation.h
+	$(CXX) $(CXXFLAGS) $< -o $@
 
-texture.o : isolation.h texture.h texture.cpp
-	$(CC) $(C_COMPILER_FLAGS) $(LINKER_FLAGS) texture.cpp
+OBJ/texture.o: SRC/texture.cpp SRC/isolation.h
+	$(CXX) $(CXXFLAGS) $< -o $@
 
-load_media.o : isolation.h load_media.cpp
-	$(CC) $(C_COMPILER_FLAGS) $(LINKER_FLAGS) load_media.cpp
-
-.PHONY : clean
-clean:
-	-rm $(OBJS) $(OBJ_NAME)
+OBJ/load_media.o: SRC/load_media.cpp SRC/isolation.h
+	$(CXX) $(CXXFLAGS) $< -o $@
