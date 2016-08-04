@@ -8,6 +8,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <string>
+#include <sstream>
 
 //include headers
 #include "texture.h"
@@ -37,10 +38,13 @@ extern SDL_Window* g_window;
 //renderer
 extern SDL_Renderer* g_renderer;
 
-//load jpeg + font
+//load jpeg
 extern Texture background_texture;
 
 //rendered font texture
 extern Texture g_text_texture;
+
+//timer Texture
+extern Texture gTimeTextTexture;
 
 #endif

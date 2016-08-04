@@ -9,9 +9,10 @@
 #include <stdio.h>
 #include <string>
 
+//texture wrapper class to handle texture functions
 class Texture {
   public:
-    //initializes variables
+    //constructor
     Texture();
 
     //deallocates memory

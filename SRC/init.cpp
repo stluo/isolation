@@ -10,6 +10,8 @@ SDL_Renderer* g_renderer = NULL;
 Texture background_texture;
 //rendered font texture
 Texture g_text_texture;
+//timer texture
+Texture gTimeTextTexture;
 
 bool init() {
   //initialization flag
