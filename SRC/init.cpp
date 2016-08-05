@@ -11,14 +11,14 @@ Texture background_texture;
 //rendered font texture
 Texture g_text_texture;
 //timer texture
-Texture gTimeTextTexture;
+Texture timer_text_texture;
 
 bool init() {
   //initialization flag
   bool success = true;
 
   //initialize SDL
-  if ( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
+  if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 ) {
     printf( "SDL could not initialized. SDL Error: %s\n", SDL_GetError() );
     success = false;
   }

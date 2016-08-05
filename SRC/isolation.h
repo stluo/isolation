@@ -45,6 +45,6 @@ extern Texture background_texture;
 extern Texture g_text_texture;
 
 //timer Texture
-extern Texture gTimeTextTexture;
+extern Texture timer_text_texture; 
 
 #endif

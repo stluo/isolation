@@ -19,14 +19,14 @@ int main( int argc, char* args[] ) {
       //event handler
       SDL_Event e;
 
-      //Set text color as black
-      SDL_Color textColor = { 0, 0, 0, 255 };
+      //Set stop watch text color as black
+      SDL_Color textColor = { 255, 255, 255, 0 };
 
       //The application timer
       Timer timer;
 
       //In memory text stream
-      std::stringstream timeText;
+      std::stringstream time_text;
 
       //while running
       while ( !quit ) {
@@ -49,6 +49,7 @@ int main( int argc, char* args[] ) {
                 else {
                   timer.stop();
                 }
+                break;
 
               case SDLK_f: //toggle fullscreen on f
                 if ( !full_screen ) {
@@ -65,11 +66,11 @@ int main( int argc, char* args[] ) {
         }
 
         //Set text to be rendered
-                timeText.str( "" );
-                timeText << "Seconds since start time " << ( timer.get_stopwatch_time() ) ;
+                time_text.str( "" );
+                time_text << "Seconds since start time " << ( timer.get_time() ) ;
 
                 //Render text
-                if( !gTimeTextTexture.load_from_rendered_text( timeText.str().c_str(), textColor ) )
+                if( !timer_text_texture.load_from_rendered_text( time_text.str().c_str(), textColor ) )
                 {
                     printf( "Unable to render time texture!\n" );
                 }
@@ -81,7 +82,7 @@ int main( int argc, char* args[] ) {
         //render frame
         background_texture.render( 0, 0 );
         g_text_texture.render( ( SCREEN_WIDTH - g_text_texture.get_width() ) / 2, 75 );
-        gTimeTextTexture.render( ( SCREEN_WIDTH - gTimeTextTexture.get_width() ) / 2, ( SCREEN_HEIGHT - gTimeTextTexture.get_height() ) / 2 );
+        timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
 
         //update screen
         SDL_RenderPresent( g_renderer );

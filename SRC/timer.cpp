@@ -8,22 +8,13 @@ Timer::Timer() {
 
   started = false;
   paused = false;
-  finished = false;
 }
-
-//TODO
-// Timer::set_start_time(unsigned int minutes) {
-//   //T
-// }
 
 //to start timer, will also restart
 void Timer::start() {
   //set status to start
   started = true;
   paused = false;
-  if ( start_time == 0 ) {
-    finished = true;      //if start time is not set use as stopwatch
-  }
 
   //get current ticks
   start_ticks = SDL_GetTicks();
@@ -37,7 +28,6 @@ void Timer::stop() {
 
   started = false;
   paused = false;
-  finished = false;      //stops the timer so counting is over
 }
 
 //pause timer only when already started
@@ -62,7 +52,7 @@ void Timer::unpause() {
 }
 
 //if stopped returns 0
-Uint32 Timer::get_stopwatch_time() {
+Uint32 Timer::get_time() {
   //the actual stopwatch time
   Uint32 time = 0;
 
@@ -79,19 +69,10 @@ Uint32 Timer::get_stopwatch_time() {
   return time;
 }
 
-//TODO
-// Uint32 Timer::get_timer_time() {
-//   //
-// }
-
 bool Timer::is_started() {
   return started;
 }
 
 bool Timer::is_paused() {
   return paused && started;
-}
-
-bool Timer::is_finished() {
-  return finished;
 }
