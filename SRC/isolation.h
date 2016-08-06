@@ -29,6 +29,15 @@ bool load_media();
 //free all and shut down SDL
 void close();
 
+//find coefficient for exp func depended on user set total minutes
+double get_coefficient( int total_minutes );
+
+//find the alpha value at a specific mintue
+Uint8 get_alpha( int minutes, double coefficient );
+
+//timer callback func
+Uint32 count_down_callback( Uint32 interval, void *param );
+
 //load global front
 extern TTF_Font* g_font;
 
@@ -45,6 +54,6 @@ extern Texture background_texture;
 extern Texture g_text_texture;
 
 //timer Texture
-extern Texture timer_text_texture; 
+extern Texture timer_text_texture;
 
 #endif

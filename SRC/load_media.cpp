@@ -17,7 +17,7 @@ bool load_media() {
   }
   else {
     //render texture
-    SDL_Color text_color = { 255, 255, 255 };
+    SDL_Color text_color = { 255, 255, 255, 255 };
     if ( !g_text_texture.load_from_rendered_text( "hello from the other side ", text_color ) ) {
       printf( "Failed to render text texture\n" );
       success = false;
