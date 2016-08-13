@@ -43,7 +43,7 @@ int main( int argc, char* args[] ) {
           }
           else if ( e.type == SDL_USEREVENT ) {
             //the call back function event
-            //TODO: get_alpha && check to see if its the last time and thus remove the timer 
+            //TODO: get_alpha && check to see if its the last time and thus remove the timer
           }
           else if ( e.type == SDL_KEYDOWN ) {
             switch ( e.key.keysym.sym ) {
@@ -98,8 +98,10 @@ int main( int argc, char* args[] ) {
 
         //render frame
         background_texture.render( 0, 0 );
-        g_text_texture.render( ( SCREEN_WIDTH - g_text_texture.get_width() ) / 2, 75 );
-        timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
+        text_overlay.render( 0, 0 );
+
+        // g_text_texture.render( ( SCREEN_WIDTH - g_text_texture.get_width() ) / 2, 75 );
+        // timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
 
         //update screen
         SDL_RenderPresent( g_renderer );

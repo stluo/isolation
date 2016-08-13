@@ -4,7 +4,12 @@ bool load_media() {
   bool success = true;
 
   //load background img
-  if( !background_texture.load_from_file( "img/vancouver.jpg" ) ) {
+  if( !background_texture.load_from_file( "img/vancouver_1280.jpg" ) ) {
+		printf( "Failed to load background texture!\n" );
+		success = false;
+	}
+
+  if( !text_overlay.load_from_file( "img/space_start_1280.png" ) ) {
 		printf( "Failed to load background texture!\n" );
 		success = false;
 	}

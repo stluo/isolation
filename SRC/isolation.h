@@ -15,7 +15,7 @@
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 800;
+const int SCREEN_HEIGHT = 720;
 
 //forward delcarlation
 //class Texture;
@@ -47,8 +47,11 @@ extern SDL_Window* g_window;
 //renderer
 extern SDL_Renderer* g_renderer;
 
-//load jpeg
+//background texture
 extern Texture background_texture;
+
+//text overlay texture
+extern Texture text_overlay;
 
 //rendered font texture
 extern Texture g_text_texture;

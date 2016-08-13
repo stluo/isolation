@@ -6,8 +6,10 @@ TTF_Font* g_font = NULL;
 SDL_Window* g_window = NULL;
 //renderer
 SDL_Renderer* g_renderer = NULL;
-//load jpeg + font
+//background texture
 Texture background_texture;
+//text overlay texture
+Texture text_overlay;
 //rendered font texture
 Texture g_text_texture;
 //timer texture
