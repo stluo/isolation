@@ -15,7 +15,7 @@ bool load_media() {
 	}
 
   //open font
-  g_font = TTF_OpenFont( "font/OpenSans-Regular.ttf", 28 );
+  g_font = TTF_OpenFont( "font/amerto.ttf", 28 );
   if ( g_font == NULL ) {
     printf( "Failed to load lazy font. SDL_ttf Error: %s\n", TTF_GetError() );
     success = false;

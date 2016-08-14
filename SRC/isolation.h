@@ -29,6 +29,8 @@ bool load_media();
 //free all and shut down SDL
 void close();
 
+//TODO: make a helper.h
+
 //find coefficient for exp func depended on user set total minutes
 double get_coefficient( int total_minutes );
 
@@ -37,6 +39,15 @@ Uint8 get_alpha( int minutes, double coefficient );
 
 //timer callback func
 Uint32 count_down_callback( Uint32 interval, void *param );
+
+//function to start break
+bool start_break( bool short_break );
+
+//function to end break
+bool end_break();
+
+//full screen flag
+extern  bool full_screen;
 
 //load global front
 extern TTF_Font* g_font;

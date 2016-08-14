@@ -1,5 +1,7 @@
 #include "isolation.h"
 
+//full screen flag
+bool full_screen = false;
 //font
 TTF_Font* g_font = NULL;
 //window

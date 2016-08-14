@@ -14,7 +14,8 @@ int main( int argc, char* args[] ) {
     else{
       //main loop flag
       bool quit = false;
-      bool full_screen = false;
+      bool on_break = false;
+      bool is_short_break = true;
 
       //event handler
       SDL_Event e;
@@ -24,8 +25,11 @@ int main( int argc, char* args[] ) {
 
       timer_text_texture.set_blend_mode( SDL_BLENDMODE_BLEND );
 
-      //The application timer
+      //timer for break;
       Timer timer;
+
+      //stopwatch for extra study time;
+      Timer stopwatch;
 
       //coeffince for finding alpha
       double coefficient = get_coefficient( 10 );
@@ -52,18 +56,17 @@ int main( int argc, char* args[] ) {
                 break;
               }
 
-              case SDLK_s: {
-                if ( !timer.is_started() ) {
-                  timer.start();
+              case SDLK_SPACE: { //start timer on space
+                if ( on_break ) {
+                  on_break = end_break();
                 }
                 else {
-                  timer.stop();
+                  on_break = start_break( is_short_break );
+                  timer.start();
                 }
-                break;
-              }
 
-              case SDLK_SPACE: { //start timer on space
-                SDL_TimerID count_down = SDL_AddTimer( 60000 , count_down_callback, NULL); //start a timer for a mintue
+                //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a mintue
+
                 break;
               }
 
@@ -101,7 +104,7 @@ int main( int argc, char* args[] ) {
         text_overlay.render( 0, 0 );
 
         // g_text_texture.render( ( SCREEN_WIDTH - g_text_texture.get_width() ) / 2, 75 );
-        // timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
+        timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
 
         //update screen
         SDL_RenderPresent( g_renderer );
