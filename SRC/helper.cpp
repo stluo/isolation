@@ -1,4 +1,4 @@
-#include "isolation.h"
+#include "helper.h"
 #include <cmath>
 
 //find the coefficient using the user set timer mintues
@@ -30,22 +30,16 @@ bool start_break( bool short_break ) {
       printf( "Failed to load background texture 1280!\n" );
     }
     else {
-      printf("hello\n" );
       if ( short_break ) {
-        background_texture.render( 0, 0 );
-        text_overlay.load_from_file( "img/shortbreak_1920.png" );    //load windowed overlay short;
+        text_overlay.load_from_file( "img/restart_timer_1280.png" );    //load windowed overlay
       }
       else if ( !short_break ) {
-        text_overlay.load_from_file( "img/longbreak_1920.png" );     //load windowed overlay long;
+        text_overlay.load_from_file( "img/restart_timer_1280.png" );     //load windowed overlay
       }
     }
   }
-  //TODO: render function
-  background_texture.render( 0, 0 );
-  text_overlay.render( 0, 0 );
   return true;
 }
-
 
 bool end_break() {
   //Todo: end the break restart everything
@@ -53,6 +47,22 @@ bool end_break() {
   //return false;
 }
 
+//function to render scren
+void render_screen() {
+  //clear screen
+  SDL_SetRenderDrawColor( g_renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+  SDL_RenderClear( g_renderer );
+
+  //render frame
+  background_texture.render( 0, 0 );
+  text_overlay.render( 0, 0 );
+
+  // g_text_texture.render( ( SCREEN_WIDTH - g_text_texture.get_width() ) / 2, 75 );
+  timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
+
+  //update screen
+  SDL_RenderPresent( g_renderer );
+}
 
 //call backfunction for timer, pushing ONE_MINUTE into event queue
 //also cause callback to be called again at one mintue

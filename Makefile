@@ -32,5 +32,5 @@ OBJ/load_media.o: SRC/load_media.cpp SRC/isolation.h
 OBJ/timer.o: SRC/timer.cpp SRC/timer.h SRC/isolation.h
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-OBJ/helper.o: SRC/helper.cpp SRC/isolation.h
+OBJ/helper.o: SRC/helper.cpp SRC/isolation.h SRC/helper.h
 	$(CXX) $(CXXFLAGS) $< -o $@

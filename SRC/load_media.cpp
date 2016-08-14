@@ -9,13 +9,14 @@ bool load_media() {
 		success = false;
 	}
 
+  //load overlay img
   if( !text_overlay.load_from_file( "img/space_start_1280.png" ) ) {
 		printf( "Failed to load background texture!\n" );
 		success = false;
 	}
 
   //open font
-  g_font = TTF_OpenFont( "font/amerto.ttf", 28 );
+  g_font = TTF_OpenFont( "font/OpenSans-Regular.ttf", 28 );
   if ( g_font == NULL ) {
     printf( "Failed to load lazy font. SDL_ttf Error: %s\n", TTF_GetError() );
     success = false;

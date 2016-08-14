@@ -1,5 +1,6 @@
 #include "isolation.h"
 #include "timer.h"
+#include "helper.h"
 
 int main( int argc, char* args[] ) {
   //start up SDL
@@ -62,11 +63,16 @@ int main( int argc, char* args[] ) {
                 }
                 else {
                   on_break = start_break( is_short_break );
-                  timer.start();
+                  timer.start_countdown( 10 );
                 }
 
                 //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a mintue
 
+                break;
+              }
+
+              case SDLK_s: {
+                timer.start_stopwatch();
                 break;
               }
 
@@ -85,9 +91,10 @@ int main( int argc, char* args[] ) {
           }
         }
 
+        int x = 0;
         //Set text to be rendered
         time_text.str( "" );
-        time_text << "Seconds since start time " << ( timer.get_time() ) ;
+        time_text << "Seconds since start time " << ( timer.get_countdown() );
 
         //Render text
         if( !timer_text_texture.load_from_rendered_text( time_text.str().c_str(), textColor ) )
@@ -95,19 +102,7 @@ int main( int argc, char* args[] ) {
           printf( "Unable to render time texture!\n" );
         }
 
-        //clear screen
-        SDL_SetRenderDrawColor( g_renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-        SDL_RenderClear( g_renderer );
-
-        //render frame
-        background_texture.render( 0, 0 );
-        text_overlay.render( 0, 0 );
-
-        // g_text_texture.render( ( SCREEN_WIDTH - g_text_texture.get_width() ) / 2, 75 );
-        timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
-
-        //update screen
-        SDL_RenderPresent( g_renderer );
+        render_screen();
       }
     }
   }
