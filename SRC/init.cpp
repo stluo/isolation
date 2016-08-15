@@ -3,7 +3,9 @@
 //full screen flag
 bool full_screen = false;
 //font
-TTF_Font* g_font = NULL;
+TTF_Font* open_sans = NULL;
+//font outline
+TTF_Font* open_sans_outline = NULL;
 //window
 SDL_Window* g_window = NULL;
 //renderer
@@ -12,10 +14,10 @@ SDL_Renderer* g_renderer = NULL;
 Texture background_texture;
 //text overlay texture
 Texture text_overlay;
-//rendered font texture
-Texture g_text_texture;
-//timer texture
-Texture timer_text_texture;
+//timer text texture
+Texture timer_texture;
+//timer text outline texture
+Texture timer_outline_texture;
 
 bool init() {
   //initialization flag

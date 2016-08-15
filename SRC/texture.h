@@ -22,7 +22,7 @@ class Texture {
     bool load_from_file( std::string path );
 
     //create image from font string
-    bool load_from_rendered_text( std::string textureText, SDL_Color text_color );
+    bool load_from_rendered_text( std::string textureText, SDL_Color text_color, TTF_Font* font );
 
     //deallocates texture
     void free();

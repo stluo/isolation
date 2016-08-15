@@ -48,12 +48,12 @@ bool Texture::load_from_file( std::string path ) {
   return m_texture != NULL;
 }
 
-bool Texture::load_from_rendered_text( std::string texture_text, SDL_Color text_color ) {
+bool Texture::load_from_rendered_text( std::string texture_text, SDL_Color text_color, TTF_Font* font ) {
   //deallocate preexisting texture
   free();
 
   //render text surface
-  SDL_Surface* text_surface = TTF_RenderText_Blended( g_font, texture_text.c_str(), text_color );
+  SDL_Surface* text_surface = TTF_RenderText_Blended( font, texture_text.c_str(), text_color );
   if ( text_surface == NULL ) {
     printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
   }

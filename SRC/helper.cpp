@@ -54,8 +54,9 @@ void render_screen() {
   background_texture.render( 0, 0 );
   text_overlay.render( 0, 0 );
 
-  // g_text_texture.render( ( SCREEN_WIDTH - g_text_texture.get_width() ) / 2, 75 );
-  timer_text_texture.render( ( SCREEN_WIDTH - timer_text_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_text_texture.get_height() ) / 2 );
+  //render text
+  timer_outline_texture.render( ( SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
+  timer_texture.render( ( SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
 
   //update screen
   SDL_RenderPresent( g_renderer );

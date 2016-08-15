@@ -33,7 +33,10 @@ void close();
 extern  bool full_screen;
 
 //load global front
-extern TTF_Font* g_font;
+extern TTF_Font* open_sans;
+
+//load global font outline
+extern TTF_Font* open_sans_outline;
 
 //window
 extern SDL_Window* g_window;
@@ -48,9 +51,9 @@ extern Texture background_texture;
 extern Texture text_overlay;
 
 //rendered font texture
-extern Texture g_text_texture;
+extern Texture timer_outline_texture;
 
 //timer Texture
-extern Texture timer_text_texture;
+extern Texture timer_texture;
 
 #endif

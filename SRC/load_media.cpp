@@ -16,18 +16,18 @@ bool load_media() {
 	}
 
   //open font
-  g_font = TTF_OpenFont( "font/OpenSans-Regular.ttf", 28 );
-  if ( g_font == NULL ) {
-    printf( "Failed to load lazy font. SDL_ttf Error: %s\n", TTF_GetError() );
+  open_sans = TTF_OpenFont( "font/OpenSans-Regular.ttf", 28 );
+  if ( open_sans == NULL ) {
+    printf( "Failed to load OpenSans-Regular font. SDL_ttf Error: %s\n", TTF_GetError() );
     success = false;
   }
-  else {
-    //render texture
-    SDL_Color text_color = { 255, 255, 255, 255 };
-    if ( !g_text_texture.load_from_rendered_text( "hello from the other side\n\nIs this any good? ", text_color ) ) {
-      printf( "Failed to render text texture\n" );
-      success = false;
-    }
+
+  //open same font for outline
+  open_sans_outline = TTF_OpenFont( "font/OpenSans-Regular.ttf", 28 );
+  TTF_SetFontOutline(open_sans_outline, 1);      //set outline size
+  if ( open_sans == NULL ) {
+    printf( "Failed to load OpenSans-Regular font. SDL_ttf Error: %s\n", TTF_GetError() );
+    success = false;
   }
 
   return success;

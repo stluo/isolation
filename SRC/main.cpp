@@ -21,10 +21,12 @@ int main( int argc, char* args[] ) {
       //event handler
       SDL_Event e;
 
-      //Set stop watch text color as white
-      SDL_Color textColor = { 255, 255, 255, 255 };
+      //setup colors for text;
+      SDL_Color white = { 255, 255, 255, 255 };
+      SDL_Color black = { 0, 0, 0, 255 };
 
-      timer_text_texture.set_blend_mode( SDL_BLENDMODE_BLEND );
+
+      timer_texture.set_blend_mode( SDL_BLENDMODE_BLEND );
 
       //timer for break;
       Timer timer;
@@ -91,13 +93,17 @@ int main( int argc, char* args[] ) {
           }
         }
 
-        int x = 0;
-        //Set text to be rendered
+        //Set text to be rendered 
         time_text.str( "" );
         time_text << "Seconds since start time " << ( timer.get_countdown() );
 
         //Render text
-        if( !timer_text_texture.load_from_rendered_text( time_text.str().c_str(), textColor ) )
+        if( !timer_texture.load_from_rendered_text( time_text.str().c_str(), white, open_sans ) )
+        {
+          printf( "Unable to render time texture!\n" );
+        }
+        //render outline text
+        if( !timer_outline_texture.load_from_rendered_text( time_text.str().c_str(), black, open_sans_outline ) )
         {
           printf( "Unable to render time texture!\n" );
         }

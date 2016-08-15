@@ -2,11 +2,11 @@
 
 void close() {
     //free loaded text
-    g_text_texture.free();
+    timer_outline_texture.free();
 
     //free font
-    TTF_CloseFont( g_font );
-    g_font = NULL;
+    TTF_CloseFont( open_sans );
+    open_sans = NULL;
 
     //destroy window
     SDL_DestroyWindow( g_window );
