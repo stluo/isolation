@@ -63,7 +63,7 @@ int main( int argc, char* args[] ) {
                 }
                 else {
                   on_break = start_break( is_short_break );
-                  timer.start_countdown( 10 );
+                  timer.start_countdown( 5 );
                 }
 
                 //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a mintue

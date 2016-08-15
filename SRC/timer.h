@@ -40,7 +40,7 @@ class Timer {
     //clock ticks at pause
     Uint32 pause_ticks;
 
-    //countdown start time;
+    //countdown start time, seconds;
     Uint32 countdown_start_time;
 
     //timer status

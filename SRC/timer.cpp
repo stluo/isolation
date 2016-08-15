@@ -32,7 +32,7 @@ void Timer::start_countdown( int minutes ) {
 
   start_ticks = SDL_GetTicks();
   pause_ticks = 0;
-  countdown_start_time = minutes * 60000;     //convert to milliseconds and set
+  countdown_start_time = minutes; //* 60;     //convert to seconds and set
 }
 
 //stop timer re-initialize variables
@@ -67,7 +67,7 @@ void Timer::unpause() {
   }
 }
 
-//if stopped returns 0
+//if stopped returns 0, returns seconds
 Uint32 Timer::get_stopwatch() {
   //the actual stopwatch time
   Uint32 time = 0;
@@ -80,24 +80,22 @@ Uint32 Timer::get_stopwatch() {
       time = SDL_GetTicks() - start_ticks;      //current time - start time;
     }
   }
-
   time = time/1000;      //convert to seconds
   return time;
 }
 
-//if stopped returns current time at count down, start a
+//if stopped returns current time at count down, returns seconds
 Uint32 Timer::get_countdown() {
   Uint32 time = 0;
-
-  if ( !finished ) {      //if the timer is not finished
-    Uint32 x = get_stopwatch();
-    time = (countdown_start_time - x);
-    //time = ceil(time/1000);      //convert to Seconds
-    printf("%i\n", time );
+  if ( !finished ) {   //if the timer is not finished
+    time = ( countdown_start_time - get_stopwatch() );
+    if ( time == 0 ) {
+      finished = true;      //set timer to finished 
+    }
     return time;
     }
   else {
-    return get_stopwatch();      //behave as stopwatch if timer completed
+    return get_stopwatch() - countdown_start_time;      //behave as stopwatch if timer completed
   }
 }
 
