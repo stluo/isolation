@@ -30,11 +30,8 @@ bool start_break( bool short_break ) {
       printf( "Failed to load background texture 1280!\n" );
     }
     else {
-      if ( short_break ) {
-        text_overlay.load_from_file( "img/restart_timer_1280.png" );    //load windowed overlay
-      }
-      else if ( !short_break ) {
-        text_overlay.load_from_file( "img/restart_timer_1280.png" );     //load windowed overlay
+      if ( !text_overlay.load_from_file( "img/restart_timer_1280.png" ) ) {
+        printf( "Failed to load restart_timer_1280 overlay\n" );     //load windowed overlay
       }
     }
   }

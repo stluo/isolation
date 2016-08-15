@@ -32,7 +32,7 @@ void Timer::start_countdown( int minutes ) {
 
   start_ticks = SDL_GetTicks();
   pause_ticks = 0;
-  countdown_start_time = minutes; //* 60;     //convert to seconds and set
+  countdown_start_time = minutes * 60;     //convert to seconds and set
 }
 
 //stop timer re-initialize variables
@@ -90,7 +90,7 @@ Uint32 Timer::get_countdown() {
   if ( !finished ) {   //if the timer is not finished
     time = ( countdown_start_time - get_stopwatch() );
     if ( time == 0 ) {
-      finished = true;      //set timer to finished 
+      finished = true;      //set timer to finished
     }
     return time;
     }
