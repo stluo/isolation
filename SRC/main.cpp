@@ -64,8 +64,9 @@ int main( int argc, char* args[] ) {
                   on_break = end_break();
                 }
                 else {
-                  on_break = start_break( is_short_break );
-                  timer.start_countdown( 5 );
+                  on_break = start_break( is_short_break );      //start break
+                  timer.start_countdown( 5 );                    // start timer for break length
+                  SDL_TimerID break_alarm = SDL_AddTimer( 3000 , alarm_callback, NULL);     //set callback for alarm
                 }
 
                 //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a mintue
@@ -74,6 +75,9 @@ int main( int argc, char* args[] ) {
               }
 
               case SDLK_s: {
+                //Mix_PlayChannel( -1, alarm_sound, -1 );
+                Mix_HaltChannel(-1);      //stop sound on all channels
+                //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL);
                 timer.start_stopwatch();
                 break;
               }
@@ -93,7 +97,7 @@ int main( int argc, char* args[] ) {
           }
         }
 
-        //Set text to be rendered 
+        //Set text to be rendered
         time_text.str( "" );
         time_text << "Seconds since start time " << ( timer.get_countdown() );
 

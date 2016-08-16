@@ -68,9 +68,12 @@ Uint32 count_down_callback( Uint32 interval, void *param ) {
   SDL_Event event;
   SDL_UserEvent userevent;
 
+  int *x = new int;
+  *x = 5;
+
   userevent.type = SDL_USEREVENT;
   userevent.code = 0;
-  userevent.data1 = NULL;
+  userevent.data1 = x;
   userevent.data2 = NULL;
 
   event.type = SDL_USEREVENT;
@@ -78,4 +81,9 @@ Uint32 count_down_callback( Uint32 interval, void *param ) {
 
   SDL_PushEvent(&event);
   return(interval);
+}
+
+//callback function to start ringing the alarm *async*
+Uint32 alarm_callback( Uint32 interval, void *param ) {
+  Mix_PlayChannel( -1, alarm_sound, -1 );    //play alarm sound loop infinitely
 }

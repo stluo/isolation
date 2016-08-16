@@ -17,6 +17,9 @@ Uint8 get_alpha( int minutes, double coefficient );
 //timer callback func
 Uint32 count_down_callback( Uint32 interval, void *param );
 
+//alarm callback func
+Uint32 alarm_callback( Uint32 interval, void *param );
+
 //function to start break
 bool start_break( bool short_break );
 

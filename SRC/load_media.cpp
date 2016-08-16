@@ -30,5 +30,12 @@ bool load_media() {
     success = false;
   }
 
+  //load alarm sound effect
+  alarm_sound = Mix_LoadWAV( "sound/vibration.wav" );
+  if( alarm_sound == NULL ) {
+    printf( "Failed to load vibration sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+    success = false;
+  }
+
   return success;
 }

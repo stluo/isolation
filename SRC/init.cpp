@@ -10,6 +10,8 @@ TTF_Font* open_sans_outline = NULL;
 SDL_Window* g_window = NULL;
 //renderer
 SDL_Renderer* g_renderer = NULL;
+//alarm_sound
+Mix_Chunk *alarm_sound = NULL;
 //background texture
 Texture background_texture;
 //text overlay texture
@@ -24,11 +26,18 @@ bool init() {
   bool success = true;
 
   //initialize SDL
-  if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 ) {
+  if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO ) < 0 ) {
     printf( "SDL could not initialized. SDL Error: %s\n", SDL_GetError() );
     success = false;
   }
   else {
+    //initialize sdl audio with default format + frequency, 2 channel (stereo)
+    if( Mix_OpenAudio( MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096 ) < 0 )
+      {
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+        success = false;
+      }
+
     //set texture filtering linear
     if ( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) ) {
       printf( "Warning: Linear filtering not enabled\n" );

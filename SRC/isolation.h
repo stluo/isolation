@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <string>
 #include <sstream>
@@ -16,9 +17,6 @@
 //Screen dimension constants
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
-
-//forward delcarlation
-//class Texture;
 
 //start up SDL create window
 bool init();
@@ -55,5 +53,8 @@ extern Texture timer_outline_texture;
 
 //timer Texture
 extern Texture timer_texture;
+
+//alarm sound effect
+extern Mix_Chunk *alarm_sound;
 
 #endif
