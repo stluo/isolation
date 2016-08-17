@@ -21,7 +21,7 @@ Uint8 get_alpha( int minutes, double coefficient ) {
 }
 
 //start the break, TODO:release keyboard and mouse control;
-bool start_break( bool short_break ) {
+bool start_break( bool short_break, unsigned short_length, unsigned long_length ) {
   if ( full_screen ){
     SDL_SetWindowFullscreen( g_window, 0 );     //go into windowed mode
     full_screen = false;
@@ -32,6 +32,14 @@ bool start_break( bool short_break ) {
     else {
       if ( !text_overlay.load_from_file( "img/restart_timer_1280.png" ) ) {
         printf( "Failed to load restart_timer_1280 overlay\n" );     //load windowed overlay
+      }
+
+      //set callback to start alarm sound
+      if ( short_break ) {
+        SDL_TimerID break_alarm = SDL_AddTimer( short_length , alarm_callback, NULL);
+      }
+      else {
+        SDL_TimerID break_alarm = SDL_AddTimer( long_length , alarm_callback, NULL);
       }
     }
   }
@@ -68,12 +76,9 @@ Uint32 count_down_callback( Uint32 interval, void *param ) {
   SDL_Event event;
   SDL_UserEvent userevent;
 
-  int *x = new int;
-  *x = 5;
-
   userevent.type = SDL_USEREVENT;
   userevent.code = 0;
-  userevent.data1 = x;
+  userevent.data1 = NULL;
   userevent.data2 = NULL;
 
   event.type = SDL_USEREVENT;

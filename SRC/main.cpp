@@ -34,6 +34,9 @@ int main( int argc, char* args[] ) {
       //stopwatch for extra study time;
       Timer stopwatch;
 
+      unsigned short_break_length = 1;
+      unsigned long_break_lenght = 2;
+
       //coeffince for finding alpha
       double coefficient = get_coefficient( 10 );
 
@@ -64,13 +67,15 @@ int main( int argc, char* args[] ) {
                   on_break = end_break();
                 }
                 else {
-                  on_break = start_break( is_short_break );      //start break
-                  timer.start_countdown( 5 );                    // start timer for break length
-                  SDL_TimerID break_alarm = SDL_AddTimer( 3000 , alarm_callback, NULL);     //set callback for alarm
+                  on_break = start_break( is_short_break, short_break_length, long_break_lenght );      //start break
+
+                  if ( is_short_break ) {
+                    timer.start_countdown( short_break_length );     // start timer for break length
+                  }
+                  else {
+                    timer.start_countdown( long_break_lenght );      // start timer for break length
+                  }
                 }
-
-                //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a mintue
-
                 break;
               }
 
@@ -99,7 +104,13 @@ int main( int argc, char* args[] ) {
 
         //Set text to be rendered
         time_text.str( "" );
-        time_text << "Seconds since start time " << ( timer.get_countdown() );
+
+        if ( timer.is_finished() ) {
+          time_text << "-" << ( timer.get_countdown() );
+        }
+        else {
+          time_text << ( timer.get_countdown() );
+        }
 
         //Render text
         if( !timer_texture.load_from_rendered_text( time_text.str().c_str(), white, open_sans ) )

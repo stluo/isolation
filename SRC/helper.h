@@ -21,7 +21,7 @@ Uint32 count_down_callback( Uint32 interval, void *param );
 Uint32 alarm_callback( Uint32 interval, void *param );
 
 //function to start break
-bool start_break( bool short_break );
+bool start_break( bool short_break, unsigned short_length, unsigned long_length);
 
 //function to end break
 bool end_break();
