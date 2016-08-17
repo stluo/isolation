@@ -17,6 +17,7 @@ int main( int argc, char* args[] ) {
       bool quit = false;
       bool on_break = false;
       bool is_short_break = true;
+      bool hardcore = false;
 
       //event handler
       SDL_Event e;
@@ -35,13 +36,16 @@ int main( int argc, char* args[] ) {
       Timer stopwatch;
 
       unsigned short_break_length = 1;
-      unsigned long_break_lenght = 2;
+      unsigned long_break_length = 2;
 
       //coeffince for finding alpha
       double coefficient = get_coefficient( 10 );
 
       //In memory text stream
       std::stringstream time_text;
+
+      //load settings 
+      load_settings( &short_break_length, &long_break_length, &hardcore);
 
       //while running
       while ( !quit ) {
@@ -67,13 +71,13 @@ int main( int argc, char* args[] ) {
                   on_break = end_break();
                 }
                 else {
-                  on_break = start_break( is_short_break, short_break_length, long_break_lenght );      //start break
+                  on_break = start_break( is_short_break, short_break_length, long_break_length );      //start break
 
                   if ( is_short_break ) {
                     timer.start_countdown( short_break_length );     // start timer for break length
                   }
                   else {
-                    timer.start_countdown( long_break_lenght );      // start timer for break length
+                    timer.start_countdown( long_break_length );      // start timer for break length
                   }
                 }
                 break;

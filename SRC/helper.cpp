@@ -1,14 +1,14 @@
 #include "helper.h"
 #include <cmath>
 
-//find the coefficient using the user set timer mintues
+//find the coefficient using the user set timer minutes
 double get_coefficient( int total_minutes ) {
   double coefficient = 0.0;
   coefficient = 255 / pow( (double)total_minutes, 2.0 );
   return coefficient;
 }
 
-//find alpha value at specific mintues using coefficient
+//find alpha value at specific minutes using coefficient
 Uint8 get_alpha( int minutes, double coefficient ) {
   Uint8 alpha = 0;
   alpha = ceil( coefficient * pow( minutes, 2 ) );
@@ -48,7 +48,7 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length 
 
 bool end_break() {
   //Todo: end the break restart everything
-  //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a mintue
+  //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a minute
   //return false;
 }
 
@@ -70,8 +70,57 @@ void render_screen() {
   SDL_RenderPresent( g_renderer );
 }
 
+//function to load settings from settings.txt
+void load_settings( unsigned *short_length, unsigned *long_length, bool *hardcore ) {
+  FILE *settings = NULL;
+  if ( (settings = fopen( "settings.txt", "r")) == NULL ) {
+    //if file does not exisit create default file
+    printf("No settings.txt, create default file with default values\n" );
+    settings = fopen( "settings.txt", "w");
+    fprintf( settings, "Break length in minutes (max: 60)\nShort break: 5\nLong break: 10\nHardcore mode forces timer completion (on/off)\nHardcore: off\n" );
+    *short_length = 5;
+    *long_length = 10;
+    *hardcore = false;
+    return;
+  }
+  else {
+    //read settings from file and assign
+    unsigned length = 60;     //max line length
+    char line[length];
+    char temp[length];
+    char off[] = "off";
+    char on[] = "on";
+
+    fgets( line, length, settings );      //skips first line
+
+    fgets( line, length, settings );      //get second line
+    sscanf( line, "%*s %*s %s", temp );   //parse short break length into temp
+    *short_length = (unsigned)(strtol(temp, NULL, 10));
+
+    fgets( line, length, settings );      //get third line
+    sscanf( line, "%*s %*s %s", temp );   //parse long break length into temp
+    *long_length = (unsigned)(strtol(temp, NULL, 10));
+
+    fgets( line, length, settings );      //skips fourth line
+
+    fgets( line, length, settings );
+    sscanf( line, "%*s %s", temp );
+    if ( !strcmp( temp, on ) ) {
+      *hardcore = true;
+    }
+    else if ( !strcmp( temp, off ) ) {
+      *hardcore = false;
+    }
+    else {
+      printf( "Default: setting hardcore mode to off\n" );
+      *hardcore = false;
+    }
+    return;
+  }
+}
+
 //call backfunction for timer, pushing ONE_MINUTE into event queue
-//also cause callback to be called again at one mintue
+//also cause callback to be called again at one minute
 Uint32 count_down_callback( Uint32 interval, void *param ) {
   SDL_Event event;
   SDL_UserEvent userevent;

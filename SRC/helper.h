@@ -11,7 +11,7 @@
 //find coefficient for exp func depended on user set total minutes
 double get_coefficient( int total_minutes );
 
-//find the alpha value at a specific mintue
+//find the alpha value at a specific minute
 Uint8 get_alpha( int minutes, double coefficient );
 
 //timer callback func
@@ -22,6 +22,9 @@ Uint32 alarm_callback( Uint32 interval, void *param );
 
 //function to start break
 bool start_break( bool short_break, unsigned short_length, unsigned long_length);
+
+//function to load settings from settings.txt
+void load_settings( unsigned *short_length, unsigned *long_length, bool *hardcore );
 
 //function to end break
 bool end_break();

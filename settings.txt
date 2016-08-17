@@ -1,0 +1,5 @@
+Break length in minutes (max: 60)
+Short break: 5
+Long break: 10
+Hardcore mode forces timer completion (on/off)
+Hardcore: on
