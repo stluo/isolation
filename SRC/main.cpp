@@ -15,7 +15,7 @@ int main( int argc, char* args[] ) {
     else{
       //main loop flag
       bool quit = false;
-      bool on_break = false;
+      bool on_break = true;
       bool is_short_break = true;
       bool hardcore = false;
 
@@ -35,8 +35,9 @@ int main( int argc, char* args[] ) {
       //stopwatch for extra study time;
       Timer stopwatch;
 
-      unsigned short_break_length = 1;
-      unsigned long_break_length = 2;
+      unsigned study_length = 0;
+      unsigned short_break_length = 0;
+      unsigned long_break_length = 0;
 
       //coeffince for finding alpha
       double coefficient = get_coefficient( 10 );
@@ -44,8 +45,8 @@ int main( int argc, char* args[] ) {
       //In memory text stream
       std::stringstream time_text;
 
-      //load settings 
-      load_settings( &short_break_length, &long_break_length, &hardcore);
+      //load settings
+      load_settings( &study_length, &short_break_length, &long_break_length, &hardcore);
 
       //while running
       while ( !quit ) {
@@ -56,6 +57,7 @@ int main( int argc, char* args[] ) {
             quit = true;
           }
           else if ( e.type == SDL_USEREVENT ) {
+            printf( "hello\n" );
             //the call back function event
             //TODO: get_alpha && check to see if its the last time and thus remove the timer
           }
@@ -68,16 +70,19 @@ int main( int argc, char* args[] ) {
 
               case SDLK_SPACE: { //start timer on space
                 if ( on_break ) {
-                  on_break = end_break();
+                  on_break = !end_break( is_short_break );
                 }
                 else {
-                  on_break = start_break( is_short_break, short_break_length, long_break_length );      //start break
+                  //start break
+                  on_break = start_break( is_short_break, short_break_length, long_break_length );
 
                   if ( is_short_break ) {
                     timer.start_countdown( short_break_length );     // start timer for break length
+                    is_short_break = false;
                   }
                   else {
                     timer.start_countdown( long_break_length );      // start timer for break length
+                    is_short_break = true;
                   }
                 }
                 break;

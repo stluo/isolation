@@ -27,13 +27,12 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length 
     full_screen = false;
 
     if( !background_texture.load_from_file( "img/vancouver_1280.jpg" ) ) {    //load windowed background
-      printf( "Failed to load background texture 1280!\n" );
+      printf( "Failed to load background texture 1280.\n" );
     }
     else {
       if ( !text_overlay.load_from_file( "img/restart_timer_1280.png" ) ) {
-        printf( "Failed to load restart_timer_1280 overlay\n" );     //load windowed overlay
+        printf( "Failed to load restart_timer_1280 overlay.\n" );     //load windowed overlay
       }
-
       //set callback to start alarm sound
       if ( short_break ) {
         SDL_TimerID break_alarm = SDL_AddTimer( short_length , alarm_callback, NULL);
@@ -41,15 +40,53 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length 
       else {
         SDL_TimerID break_alarm = SDL_AddTimer( long_length , alarm_callback, NULL);
       }
+      //break started
+      return true;
     }
   }
-  return true;
+  else {
+    printf( "Error: Cannot start break\n" );
+    return false;
+  }
 }
 
-bool end_break() {
+bool end_break( bool short_break ) {
   //Todo: end the break restart everything
   //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a minute
   //return false;
+
+  if ( !full_screen ) {
+    SDL_SetWindowFullscreen( g_window, SDL_WINDOW_FULLSCREEN_DESKTOP );
+    full_screen = true;
+
+    if (!background_texture.load_from_file( "img/vancouver_1920.jpg" ) ) {
+      printf( "Failed to load background texture 1920.\n" );
+    }
+    else {
+      if ( short_break ) {
+        //load short break overlay
+        if ( !text_overlay.load_from_file( "img/shortbreak_1920.png" ) ) {
+          printf( "Failed to load shortbreak_1920.png.\n" );
+        }
+      }
+      else if ( !short_break ) {
+        //load long break overlay
+        if ( !text_overlay.load_from_file( "img/longbreak_1920.png" ) ) {
+          printf( "Failed to load longbreak_1920.png.\n" );
+        }
+      }
+      //set overlay to be fully transparent at start of study
+      text_overlay.set_alpha( 0 );
+      //start minute timer for getalpha
+      SDL_TimerID count_down = SDL_AddTimer( 60000, count_down_callback, NULL );
+
+      return true;
+    }
+  }
+  else {
+    printf( "Error: Cannot start studying\n" );
+    return false;
+  }
 }
 
 //function to render scren
@@ -71,13 +108,14 @@ void render_screen() {
 }
 
 //function to load settings from settings.txt
-void load_settings( unsigned *short_length, unsigned *long_length, bool *hardcore ) {
+void load_settings( unsigned *study_length, unsigned *short_length, unsigned *long_length, bool *hardcore ) {
   FILE *settings = NULL;
   if ( (settings = fopen( "settings.txt", "r")) == NULL ) {
     //if file does not exisit create default file
     printf("No settings.txt, create default file with default values\n" );
     settings = fopen( "settings.txt", "w");
-    fprintf( settings, "Break length in minutes (max: 60)\nShort break: 5\nLong break: 10\nHardcore mode forces timer completion (on/off)\nHardcore: off\n" );
+    fprintf( settings, "Study period in mintues (max: 60)\nStudy Length: 25\nBreak length in minutes (max: 60)\nShort break: 5\nLong break: 10\nHardcore mode forces timer completion (on/off)\nHardcore: off\n" );
+    *study_length = 25;
     *short_length = 5;
     *long_length = 10;
     *hardcore = false;
@@ -93,11 +131,15 @@ void load_settings( unsigned *short_length, unsigned *long_length, bool *hardcor
 
     fgets( line, length, settings );      //skips first line
 
-    fgets( line, length, settings );      //get second line
+    fgets( line, length, settings );
+    sscanf( line, "%*s %*s %s", temp );   //parse study length period
+    *study_length = (unsigned)(strtol(temp, NULL, 10));
+
+    fgets( line, length, settings );
     sscanf( line, "%*s %*s %s", temp );   //parse short break length into temp
     *short_length = (unsigned)(strtol(temp, NULL, 10));
 
-    fgets( line, length, settings );      //get third line
+    fgets( line, length, settings );
     sscanf( line, "%*s %*s %s", temp );   //parse long break length into temp
     *long_length = (unsigned)(strtol(temp, NULL, 10));
 
@@ -105,13 +147,14 @@ void load_settings( unsigned *short_length, unsigned *long_length, bool *hardcor
 
     fgets( line, length, settings );
     sscanf( line, "%*s %s", temp );
-    if ( !strcmp( temp, on ) ) {
+    if ( !strcmp( temp, on ) ) {          //check for hardcore mode
       *hardcore = true;
     }
     else if ( !strcmp( temp, off ) ) {
       *hardcore = false;
     }
     else {
+      //if can't parse set default
       printf( "Default: setting hardcore mode to off\n" );
       *hardcore = false;
     }

@@ -23,11 +23,11 @@ Uint32 alarm_callback( Uint32 interval, void *param );
 //function to start break
 bool start_break( bool short_break, unsigned short_length, unsigned long_length);
 
-//function to load settings from settings.txt
-void load_settings( unsigned *short_length, unsigned *long_length, bool *hardcore );
-
 //function to end break
-bool end_break();
+bool end_break( bool short_break );
+
+//function to load settings from settings.txt
+void load_settings( unsigned *study_length, unsigned *short_length, unsigned *long_length, bool *hardcore );
 
 //function to clear then render frame then update screen
 void render_screen();
