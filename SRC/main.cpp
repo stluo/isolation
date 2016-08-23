@@ -63,12 +63,16 @@ int main( int argc, char* args[] ) {
           }
           else if ( e.type == SDL_KEYDOWN ) {
             switch ( e.key.keysym.sym ) {
-              case SDLK_q: {//quit on q
+
+              case SDLK_q: {      //quit on q
                 quit = true;
                 break;
               }
 
-              case SDLK_SPACE: { //start timer on space
+              case SDLK_SPACE: {      //start timer on space
+                if ( e.key.repeat != 0 ) {
+                  break;
+                }
                 if ( on_break ) {
                   on_break = !end_break( is_short_break );
                 }
@@ -94,7 +98,10 @@ int main( int argc, char* args[] ) {
                 break;
               }
 
-              case SDLK_f: {//toggle fullscreen on f
+              case SDLK_f: {      //toggle fullscreen on f
+                if ( e.key.repeat != 0 ) {
+                  break;
+                }
                 if ( !full_screen ) {
                   SDL_SetWindowFullscreen( g_window, SDL_WINDOW_FULLSCREEN_DESKTOP );
                   full_screen = true;
