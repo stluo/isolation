@@ -7,6 +7,7 @@
 
 //include headers
 #include "isolation.h"
+#include "timer.h"
 
 //find coefficient for exp func depended on user set total minutes
 double get_coefficient( int total_minutes );
@@ -21,7 +22,7 @@ Uint32 count_down_callback( Uint32 interval, void *param );
 Uint32 alarm_callback( Uint32 interval, void *param );
 
 //function to start break
-bool start_break( bool short_break, unsigned short_length, unsigned long_length);
+bool start_break( bool short_break, unsigned short_length, unsigned long_length, Timer *timer);
 
 //function to end break
 bool end_break( bool short_break );

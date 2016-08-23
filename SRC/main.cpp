@@ -74,14 +74,12 @@ int main( int argc, char* args[] ) {
                 }
                 else {
                   //start break
-                  on_break = start_break( is_short_break, short_break_length, long_break_length );
-
                   if ( is_short_break ) {
-                    timer.start_countdown( short_break_length );     // start timer for break length
+                    on_break = start_break( is_short_break, short_break_length, long_break_length, &timer );
                     is_short_break = false;
                   }
                   else {
-                    timer.start_countdown( long_break_length );      // start timer for break length
+                    on_break = start_break( is_short_break, short_break_length, long_break_length, &timer );
                     is_short_break = true;
                   }
                 }

@@ -1,5 +1,5 @@
 #include "helper.h"
-#include <cmath>
+#define ONE_MINUTE 60000
 
 //find the coefficient using the user set timer minutes
 double get_coefficient( int total_minutes ) {
@@ -21,7 +21,7 @@ Uint8 get_alpha( int minutes, double coefficient ) {
 }
 
 //start the break, TODO:release keyboard and mouse control;
-bool start_break( bool short_break, unsigned short_length, unsigned long_length ) {
+bool start_break( bool short_break, unsigned short_length, unsigned long_length, Timer *countdown ) {
   if ( full_screen ){
     SDL_SetWindowFullscreen( g_window, 0 );     //go into windowed mode
     full_screen = false;
@@ -33,12 +33,14 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length 
       if ( !text_overlay.load_from_file( "img/restart_timer_1280.png" ) ) {
         printf( "Failed to load restart_timer_1280 overlay.\n" );     //load windowed overlay
       }
-      //set callback to start alarm sound
+      //set callback to start alarm sound and start countdown timer
       if ( short_break ) {
-        SDL_TimerID break_alarm = SDL_AddTimer( short_length , alarm_callback, NULL);
+        countdown->start_countdown( short_length );
+        SDL_TimerID break_alarm = SDL_AddTimer( short_length * 60000 , alarm_callback, NULL);
       }
       else {
-        SDL_TimerID break_alarm = SDL_AddTimer( long_length , alarm_callback, NULL);
+        countdown->start_countdown( long_length );
+        SDL_TimerID break_alarm = SDL_AddTimer( long_length * 60000, alarm_callback, NULL);
       }
       //break started
       return true;
@@ -50,11 +52,8 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length 
   }
 }
 
+//end the break or start studying TODO: something to remove the timers
 bool end_break( bool short_break ) {
-  //Todo: end the break restart everything
-  //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL); //start a timer for a minute
-  //return false;
-
   if ( !full_screen ) {
     SDL_SetWindowFullscreen( g_window, SDL_WINDOW_FULLSCREEN_DESKTOP );
     full_screen = true;
@@ -78,7 +77,7 @@ bool end_break( bool short_break ) {
       //set overlay to be fully transparent at start of study
       text_overlay.set_alpha( 0 );
       //start minute timer for getalpha
-      SDL_TimerID count_down = SDL_AddTimer( 60000, count_down_callback, NULL );
+      SDL_TimerID count_down = SDL_AddTimer( ONE_MINUTE, count_down_callback, NULL );
 
       return true;
     }
@@ -135,6 +134,8 @@ void load_settings( unsigned *study_length, unsigned *short_length, unsigned *lo
     sscanf( line, "%*s %*s %s", temp );   //parse study length period
     *study_length = (unsigned)(strtol(temp, NULL, 10));
 
+    fgets( line, length, settings );      //skips third line
+
     fgets( line, length, settings );
     sscanf( line, "%*s %*s %s", temp );   //parse short break length into temp
     *short_length = (unsigned)(strtol(temp, NULL, 10));
@@ -183,4 +184,5 @@ Uint32 count_down_callback( Uint32 interval, void *param ) {
 //callback function to start ringing the alarm *async*
 Uint32 alarm_callback( Uint32 interval, void *param ) {
   Mix_PlayChannel( -1, alarm_sound, -1 );    //play alarm sound loop infinitely
+  return 0;
 }
