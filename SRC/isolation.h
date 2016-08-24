@@ -9,7 +9,6 @@
 #include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <string>
-#include <sstream>
 
 //include headers
 #include "texture.h"

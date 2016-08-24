@@ -22,16 +22,8 @@ int main( int argc, char* args[] ) {
       //event handler
       SDL_Event e;
 
-      //setup colors for text;
-      SDL_Color white = { 255, 255, 255, 255 };
-      SDL_Color black = { 0, 0, 0, 255 };
-
-
-      timer_texture.set_blend_mode( SDL_BLENDMODE_BLEND );
-
       //timer for break;
       Timer timer;
-
       //stopwatch for extra study time;
       Timer stopwatch;
 
@@ -41,9 +33,6 @@ int main( int argc, char* args[] ) {
 
       //coeffince for finding alpha
       double coefficient = get_coefficient( 10 );
-
-      //In memory text stream
-      std::stringstream time_text;
 
       //load settings
       load_settings( &study_length, &short_break_length, &long_break_length, &hardcore);
@@ -116,31 +105,13 @@ int main( int argc, char* args[] ) {
           }
         }
 
-        //Set text to be rendered
-        time_text.str( "" );
-
-        if ( timer.is_finished() ) {
-          time_text << "-" << ( timer.get_countdown() );
-        }
-        else {
-          time_text << ( timer.get_countdown() );
-        }
-
-        //Render text
-        if( !timer_texture.load_from_rendered_text( time_text.str().c_str(), white, open_sans ) )
-        {
-          printf( "Unable to render time texture!\n" );
-        }
-        //render outline text
-        if( !timer_outline_texture.load_from_rendered_text( time_text.str().c_str(), black, open_sans_outline ) )
-        {
-          printf( "Unable to render time texture!\n" );
-        }
+        draw_text( &timer, &stopwatch );
 
         render_screen();
       }
     }
   }
+
 
   //free memory and close SDL
   close();

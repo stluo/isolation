@@ -1,7 +1,7 @@
 Study period in mintues (max: 60)
 Study Length: 25
 Break length in minutes (max: 60)
-Short break: 5
-Long break: 10
+Short break: 1
+Long break: 2
 Hardcore mode forces timer completion (on/off)
 Hardcore: off

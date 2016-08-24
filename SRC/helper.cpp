@@ -54,6 +54,9 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length,
 
 //end the break or start studying TODO: something to remove the timers
 bool end_break( bool short_break ) {
+  //stop all sound
+  Mix_HaltChannel(-1);
+
   if ( !full_screen ) {
     SDL_SetWindowFullscreen( g_window, SDL_WINDOW_FULLSCREEN_DESKTOP );
     full_screen = true;
@@ -74,8 +77,11 @@ bool end_break( bool short_break ) {
           printf( "Failed to load longbreak_1920.png.\n" );
         }
       }
-      //set overlay to be fully transparent at start of study
+      //set overlay and timer to be fully transparent at start of study
       text_overlay.set_alpha( 0 );
+      timer_texture.set_alpha( 0 );
+      timer_outline_texture.set_alpha( 0 );
+
       //start minute timer for getalpha
       SDL_TimerID count_down = SDL_AddTimer( ONE_MINUTE, count_down_callback, NULL );
 
@@ -85,6 +91,72 @@ bool end_break( bool short_break ) {
   else {
     printf( "Error: Cannot start studying\n" );
     return false;
+  }
+}
+
+//draw and format text then create texture
+void draw_text( Timer *timer, Timer *stopwatch ) {
+  //In memory text stream
+  std::stringstream time_text;
+  //Set text to be rendered
+  time_text.str( "" );
+
+  unsigned seconds = 0;
+  unsigned minutes = 0;
+  unsigned hours = 0;
+
+  //setup colors for text;
+  SDL_Color white = { 255, 255, 255, 255 };
+  SDL_Color black = { 0, 0, 0, 255 };
+
+  if ( timer->is_started() ) {
+    seconds = timer->get_countdown();
+    hours = seconds / 3600;
+    minutes = (seconds % 3600) / 60;
+    seconds = seconds % 60;
+
+    if ( timer->is_finished() ) {
+      time_text << "-"
+                << std::setfill('0') << std::setw(2) << hours << ":"
+                << std::setfill('0') << std::setw(2) << minutes << ":"
+                << std::setfill('0') << std::setw(2) << seconds;
+    }
+    else {
+      if ( minutes == 0 ) {
+        time_text << seconds;
+      }
+      else {
+        time_text << minutes << ":" << std::setfill('0') << std::setw(2) << seconds;
+      }
+    }
+  }
+  else if ( stopwatch->is_started() ) {
+    seconds = stopwatch->get_stopwatch();
+    hours = seconds / 3600;
+    minutes = (seconds % 3600) / 60;
+    seconds = seconds % 60;
+
+    time_text << std::setfill('0') << std::setw(2) << hours << ":"
+              << std::setfill('0') << std::setw(2) << minutes << ":"
+              << std::setfill('0') << std::setw(2) << seconds;
+  }
+
+  if ( stopwatch->is_started() || timer->is_started() ) {
+    //Render text
+    if( !timer_texture.load_from_rendered_text( time_text.str().c_str(), white, open_sans ) )
+    {
+      printf( "Unable to render time texture!\n" );
+    }
+    //render outline text
+    if( !timer_outline_texture.load_from_rendered_text( time_text.str().c_str(), black, open_sans_outline ) )
+    {
+      printf( "Unable to render time texture!\n" );
+    }
+  }
+  else {
+    //if both timer off set the text to be transparent
+    timer_texture.set_alpha( 0 );
+    timer_outline_texture.set_alpha( 0 );
   }
 }
 
