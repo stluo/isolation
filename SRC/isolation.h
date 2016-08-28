@@ -16,6 +16,8 @@
 //Screen dimension constants
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
+const int FULL_SCREEN_WIDTH = 1920;
+const int FULL_SCREEN_HEIGHT = 1080;
 
 //start up SDL create window
 bool init();
@@ -26,8 +28,11 @@ bool load_media();
 //free all and shut down SDL
 void close();
 
+//TimerID count_down
+extern SDL_TimerID count_down;
+
 //full screen flag
-extern  bool full_screen;
+extern bool full_screen;
 
 //load global front
 extern TTF_Font* open_sans;

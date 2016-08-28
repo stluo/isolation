@@ -27,15 +27,16 @@ int main( int argc, char* args[] ) {
       //stopwatch for extra study time;
       Timer stopwatch;
 
+      unsigned minute_counter = 0;
       unsigned study_length = 0;
       unsigned short_break_length = 0;
       unsigned long_break_length = 0;
 
-      //coeffince for finding alpha
-      double coefficient = get_coefficient( 10 );
-
       //load settings
       load_settings( &study_length, &short_break_length, &long_break_length, &hardcore);
+
+      //coeffince for finding alpha
+      double coefficient = get_coefficient( study_length );
 
       //while running
       while ( !quit ) {
@@ -46,9 +47,23 @@ int main( int argc, char* args[] ) {
             quit = true;
           }
           else if ( e.type == SDL_USEREVENT ) {
-            printf( "hello\n" );
-            //the call back function event
-            //TODO: get_alpha && check to see if its the last time and thus remove the timer
+            minute_counter++;
+            printf("hello\n" );
+
+            if ( minute_counter < study_length ) {
+              //set the text_overlay alpha using exp graph
+              text_overlay.set_alpha( get_alpha( minute_counter, coefficient) );
+            }
+            else if ( minute_counter == study_length ) {
+              //reset minute_counter
+              minute_counter = 0;
+              //set text_overlay alpha to be fully opaque
+              text_overlay.set_alpha( 255 );
+              //remove count_down SDL_Timer
+              SDL_RemoveTimer( count_down );
+              //start stopwatch to count extra study time
+              stopwatch.start_stopwatch();
+            }
           }
           else if ( e.type == SDL_KEYDOWN ) {
             switch ( e.key.keysym.sym ) {
@@ -63,10 +78,14 @@ int main( int argc, char* args[] ) {
                   break;
                 }
                 if ( on_break ) {
+                  //start studyhing stop timer
+                  timer.stop();
                   on_break = !end_break( is_short_break );
                 }
                 else {
-                  //start break
+                  //start break, stop stopwatch
+                  stopwatch.stop();
+
                   if ( is_short_break ) {
                     on_break = start_break( is_short_break, short_break_length, long_break_length, &timer );
                     is_short_break = false;
@@ -80,10 +99,9 @@ int main( int argc, char* args[] ) {
               }
 
               case SDLK_s: {
-                //Mix_PlayChannel( -1, alarm_sound, -1 );
-                Mix_HaltChannel(-1);      //stop sound on all channels
-                //SDL_TimerID count_down = SDL_AddTimer( 3000 , count_down_callback, NULL);
-                timer.start_stopwatch();
+                Mix_HaltChannel(-1);      //stop sound on all channel
+                //timer.start_stopwatch();
+                stopwatch.start_stopwatch();
                 break;
               }
 

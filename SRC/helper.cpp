@@ -24,6 +24,18 @@ Uint8 get_alpha( int minutes, double coefficient ) {
 bool start_break( bool short_break, unsigned short_length, unsigned long_length, Timer *countdown ) {
   if ( full_screen ){
     SDL_SetWindowFullscreen( g_window, 0 );     //go into windowed mode
+
+    //load windowed sized font
+    open_sans = TTF_OpenFont( "font/OpenSans-Regular.ttf", 40 );
+    if ( open_sans == NULL ) {
+      printf( "Failed to load OpenSans-Regular font. SDL_ttf Error: %s\n", TTF_GetError() );
+    }
+    open_sans_outline = TTF_OpenFont( "font/OpenSans-Regular.ttf", 40 );
+    TTF_SetFontOutline(open_sans_outline, 1);
+    if ( open_sans == NULL ) {
+      printf( "Failed to load OpenSans-Regular font. SDL_ttf Error: %s\n", TTF_GetError() );
+    }
+
     full_screen = false;
 
     if( !background_texture.load_from_file( "img/vancouver_1280.jpg" ) ) {    //load windowed background
@@ -59,6 +71,18 @@ bool end_break( bool short_break ) {
 
   if ( !full_screen ) {
     SDL_SetWindowFullscreen( g_window, SDL_WINDOW_FULLSCREEN_DESKTOP );
+
+    //load full_screen sized font
+    open_sans = TTF_OpenFont( "font/OpenSans-Regular.ttf", 90 );
+    if ( open_sans == NULL ) {
+      printf( "Failed to load OpenSans-Regular font. SDL_ttf Error: %s\n", TTF_GetError() );
+    }
+    open_sans_outline = TTF_OpenFont( "font/OpenSans-Regular.ttf", 90 );
+    TTF_SetFontOutline(open_sans_outline, 1);      //set outline size
+    if ( open_sans == NULL ) {
+      printf( "Failed to load OpenSans-Regular font. SDL_ttf Error: %s\n", TTF_GetError() );
+    }
+
     full_screen = true;
 
     if (!background_texture.load_from_file( "img/vancouver_1920.jpg" ) ) {
@@ -84,6 +108,7 @@ bool end_break( bool short_break ) {
 
       //start minute timer for getalpha
       SDL_TimerID count_down = SDL_AddTimer( ONE_MINUTE, count_down_callback, NULL );
+      //SDL_TimerID count_down = SDL_AddTimer( 3000, count_down_callback, NULL );
 
       return true;
     }
@@ -104,7 +129,7 @@ void draw_text( Timer *timer, Timer *stopwatch ) {
   unsigned seconds = 0;
   unsigned minutes = 0;
   unsigned hours = 0;
-
+  //TODO:: declar colors in main
   //setup colors for text;
   SDL_Color white = { 255, 255, 255, 255 };
   SDL_Color black = { 0, 0, 0, 255 };
@@ -138,7 +163,7 @@ void draw_text( Timer *timer, Timer *stopwatch ) {
 
     time_text << std::setfill('0') << std::setw(2) << hours << ":"
               << std::setfill('0') << std::setw(2) << minutes << ":"
-              << std::setfill('0') << std::setw(2) << seconds;
+              << std::setfill('0') << std::setw(2) << seconds << "\n hello";
   }
 
   if ( stopwatch->is_started() || timer->is_started() ) {
@@ -170,9 +195,15 @@ void render_screen() {
   background_texture.render( 0, 0 );
   text_overlay.render( 0, 0 );
 
-  //render text
-  timer_outline_texture.render( ( SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
-  timer_texture.render( ( SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
+  //render text windowed
+  if ( full_screen ) {
+    timer_outline_texture.render( ( FULL_SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( FULL_SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
+    timer_texture.render( ( FULL_SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( FULL_SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
+  }
+  else {
+    timer_outline_texture.render( ( SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
+    timer_texture.render( ( SCREEN_WIDTH - timer_texture.get_width() ) / 2, ( SCREEN_HEIGHT - timer_texture.get_height() ) / 2 );
+  }
 
   //update screen
   SDL_RenderPresent( g_renderer );
@@ -250,7 +281,7 @@ Uint32 count_down_callback( Uint32 interval, void *param ) {
   event.user = userevent;
 
   SDL_PushEvent(&event);
-  return(interval);
+  return interval;
 }
 
 //callback function to start ringing the alarm *async*

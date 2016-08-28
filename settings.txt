@@ -1,5 +1,5 @@
 Study period in mintues (max: 60)
-Study Length: 25
+Study Length: 1
 Break length in minutes (max: 60)
 Short break: 1
 Long break: 2

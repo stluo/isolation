@@ -12,6 +12,8 @@ SDL_Window* g_window = NULL;
 SDL_Renderer* g_renderer = NULL;
 //alarm_sound
 Mix_Chunk *alarm_sound = NULL;
+//TimerID count_down
+SDL_TimerID count_down;
 //background texture
 Texture background_texture;
 //text overlay texture
