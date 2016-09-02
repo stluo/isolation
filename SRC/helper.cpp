@@ -20,8 +20,11 @@ Uint8 get_alpha( int minutes, double coefficient ) {
   }
 }
 
-//start the break, TODO:release keyboard and mouse control;
+//start the break
 bool start_break( bool short_break, unsigned short_length, unsigned long_length, Timer *countdown ) {
+  //show cursor
+  SDL_ShowCursor( 1 );
+
   if ( full_screen ){
     SDL_SetWindowFullscreen( g_window, 0 );     //go into windowed mode
 
@@ -64,10 +67,14 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length,
   }
 }
 
-//end the break or start studying TODO: something to remove the timers
+//end the break or start studying
 bool end_break( bool short_break ) {
   //stop all sound
   Mix_HaltChannel(-1);
+  //hide cursor
+  SDL_ShowCursor( 0 );
+
+
 
   if ( !full_screen ) {
     SDL_SetWindowFullscreen( g_window, SDL_WINDOW_FULLSCREEN_DESKTOP );
@@ -108,7 +115,6 @@ bool end_break( bool short_break ) {
 
       //start minute timer for getalpha
       SDL_TimerID count_down = SDL_AddTimer( ONE_MINUTE, count_down_callback, NULL );
-      //SDL_TimerID count_down = SDL_AddTimer( 3000, count_down_callback, NULL );
 
       return true;
     }
@@ -120,7 +126,7 @@ bool end_break( bool short_break ) {
 }
 
 //draw and format text then create texture
-void draw_text( Timer *timer, Timer *stopwatch ) {
+void draw_text( Timer *timer, Timer *stopwatch, SDL_Color BLACK, SDL_Color WHITE ) {
   //In memory text stream
   std::stringstream time_text;
   //Set text to be rendered
@@ -129,10 +135,6 @@ void draw_text( Timer *timer, Timer *stopwatch ) {
   unsigned seconds = 0;
   unsigned minutes = 0;
   unsigned hours = 0;
-  //TODO:: declar colors in main
-  //setup colors for text;
-  SDL_Color white = { 255, 255, 255, 255 };
-  SDL_Color black = { 0, 0, 0, 255 };
 
   if ( timer->is_started() ) {
     seconds = timer->get_countdown();
@@ -168,12 +170,12 @@ void draw_text( Timer *timer, Timer *stopwatch ) {
 
   if ( stopwatch->is_started() || timer->is_started() ) {
     //Render text
-    if( !timer_texture.load_from_rendered_text( time_text.str().c_str(), white, open_sans ) )
+    if( !timer_texture.load_from_rendered_text( time_text.str().c_str(), WHITE, open_sans ) )
     {
       printf( "Unable to render time texture!\n" );
     }
     //render outline text
-    if( !timer_outline_texture.load_from_rendered_text( time_text.str().c_str(), black, open_sans_outline ) )
+    if( !timer_outline_texture.load_from_rendered_text( time_text.str().c_str(), BLACK, open_sans_outline ) )
     {
       printf( "Unable to render time texture!\n" );
     }

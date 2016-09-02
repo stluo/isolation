@@ -27,7 +27,7 @@ bool end_break( bool short_break );
 void load_settings( unsigned *study_length, unsigned *short_length, unsigned *long_length, bool *hardcore );
 
 //draw and format text then create texture
-void draw_text( Timer *timer, Timer *stopwatch );
+void draw_text( Timer *timer, Timer *stopwatch, SDL_Color BLACK, SDL_Color WHITE );
 
 //function to clear then render frame then update screen
 void render_screen();

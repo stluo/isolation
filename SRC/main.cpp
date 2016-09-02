@@ -19,6 +19,10 @@ int main( int argc, char* args[] ) {
       bool is_short_break = true;
       bool hardcore = false;
 
+      //assign RGB colors
+      SDL_Color WHITE = { 255, 255, 255, 255 };
+      SDL_Color BLACK = { 0, 0, 0, 255 };
+
       //event handler
       SDL_Event e;
 
@@ -48,7 +52,6 @@ int main( int argc, char* args[] ) {
           }
           else if ( e.type == SDL_USEREVENT ) {
             minute_counter++;
-            printf("hello\n" );
 
             if ( minute_counter < study_length ) {
               //set the text_overlay alpha using exp graph
@@ -69,7 +72,11 @@ int main( int argc, char* args[] ) {
             switch ( e.key.keysym.sym ) {
 
               case SDLK_q: {      //quit on q
+                //TODO: take this out later
                 quit = true;
+                if ( on_break ) {
+                  quit = true;
+                }
                 break;
               }
 
@@ -82,7 +89,7 @@ int main( int argc, char* args[] ) {
                   timer.stop();
                   on_break = !end_break( is_short_break );
                 }
-                else {
+                else if ( stopwatch.is_started() ) {
                   //start break, stop stopwatch
                   stopwatch.stop();
 
@@ -123,13 +130,17 @@ int main( int argc, char* args[] ) {
           }
         }
 
-        draw_text( &timer, &stopwatch );
+        //prevents alt-tab
+        if ( !on_break ) {
+          SDL_RaiseWindow( g_window );
+        }
+
+        draw_text( &timer, &stopwatch, BLACK, WHITE );
 
         render_screen();
       }
     }
   }
-
 
   //free memory and close SDL
   close();

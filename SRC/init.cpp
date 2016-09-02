@@ -45,6 +45,9 @@ bool init() {
       printf( "Warning: Linear filtering not enabled\n" );
     }
 
+    //window does not minimize
+    SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+
     //create window
     g_window = SDL_CreateWindow( "Isolation", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     if ( g_window == NULL ) {
