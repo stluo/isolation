@@ -19,6 +19,9 @@ int main( int argc, char* args[] ) {
       bool is_short_break = true;
       bool hardcore = false;
 
+      //counter for force quit when hardcore is off
+      unsigned force_quit_counter = 0;
+
       //assign RGB colors
       SDL_Color WHITE = { 255, 255, 255, 255 };
       SDL_Color BLACK = { 0, 0, 0, 255 };
@@ -53,6 +56,10 @@ int main( int argc, char* args[] ) {
           else if ( e.type == SDL_USEREVENT ) {
             minute_counter++;
 
+            //reset forcequit counter ever minute
+            force_quit_counter = 0;
+
+
             if ( minute_counter < study_length ) {
               //set the text_overlay alpha using exp graph
               text_overlay.set_alpha( get_alpha( minute_counter, coefficient) );
@@ -72,8 +79,13 @@ int main( int argc, char* args[] ) {
             switch ( e.key.keysym.sym ) {
 
               case SDLK_q: {      //quit on q
-                //TODO: take this out later
-                quit = true;
+
+                //detect force quit on softcore
+                if ( e.key.repeat == 1 && hardcore == false) {
+                  force_quit_counter++;
+                }
+
+                //quit = true;
                 if ( on_break ) {
                   quit = true;
                 }
@@ -109,6 +121,7 @@ int main( int argc, char* args[] ) {
                 Mix_HaltChannel(-1);      //stop sound on all channel
                 //timer.start_stopwatch();
                 stopwatch.start_stopwatch();
+                quit = true;
                 break;
               }
 
@@ -128,6 +141,11 @@ int main( int argc, char* args[] ) {
               }
             }
           }
+        }
+
+        //force quit detection
+        if ( force_quit_counter > 333 ) {
+          quit = true;
         }
 
         //prevents alt-tab

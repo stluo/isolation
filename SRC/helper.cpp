@@ -165,7 +165,7 @@ void draw_text( Timer *timer, Timer *stopwatch, SDL_Color BLACK, SDL_Color WHITE
 
     time_text << std::setfill('0') << std::setw(2) << hours << ":"
               << std::setfill('0') << std::setw(2) << minutes << ":"
-              << std::setfill('0') << std::setw(2) << seconds << "\n hello";
+              << std::setfill('0') << std::setw(2) << seconds;
   }
 
   if ( stopwatch->is_started() || timer->is_started() ) {
