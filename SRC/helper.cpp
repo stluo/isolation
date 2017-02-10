@@ -41,7 +41,7 @@ bool start_break( bool short_break, unsigned short_length, unsigned long_length,
 
     full_screen = false;
 
-    if( !background_texture.load_from_file( "img/vancouver_1280.jpg" ) ) {    //load windowed background
+    if( !background_texture.load_from_file( background_file_1280.str().c_str() ) ) {    //load windowed background
       printf( "Failed to load background texture 1280.\n" );
     }
     else {
@@ -92,7 +92,7 @@ bool end_break( bool short_break ) {
 
     full_screen = true;
 
-    if (!background_texture.load_from_file( "img/vancouver_1920.jpg" ) ) {
+    if (!background_texture.load_from_file( background_file_1920.str().c_str() ) ) {
       printf( "Failed to load background texture 1920.\n" );
     }
     else {
@@ -115,6 +115,12 @@ bool end_break( bool short_break ) {
 
       //start minute timer for getalpha
       SDL_TimerID count_down = SDL_AddTimer( ONE_MINUTE, count_down_callback, NULL );
+
+      int background_num = rand() % 5 + 1;
+      background_file_1280.str( "" );
+      background_file_1280 << "img/" << background_num << "_1280.jpg";
+      background_file_1920.str( "" );
+      background_file_1920 << "img/" << background_num << "_1920.jpg";
 
       return true;
     }

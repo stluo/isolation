@@ -8,7 +8,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 #include <stdio.h>
+#include <sstream>
 #include <string>
+#include <stdlib.h>
+#include <time.h>
 
 //include headers
 #include "texture.h"
@@ -27,6 +30,10 @@ bool load_media();
 
 //free all and shut down SDL
 void close();
+
+//for background
+extern std::stringstream background_file_1280;
+extern std::stringstream background_file_1920;
 
 //TimerID count_down
 extern SDL_TimerID count_down;

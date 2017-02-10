@@ -99,10 +99,12 @@ int main( int argc, char* args[] ) {
                 if ( on_break ) {
                   //start studyhing stop timer
                   timer.stop();
+                  stopwatch.stop();
                   on_break = !end_break( is_short_break );
                 }
                 else if ( stopwatch.is_started() ) {
                   //start break, stop stopwatch
+                  timer.stop();
                   stopwatch.stop();
 
                   if ( is_short_break ) {

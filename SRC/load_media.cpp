@@ -3,8 +3,15 @@
 bool load_media() {
   bool success = true;
 
+  srand(time(NULL));
+  unsigned background_num = rand() % 5 + 1;
+  background_file_1280.str( "" );
+  background_file_1280 << "img/" << background_num << "_1280.jpg";
+  background_file_1920.str( "" );
+  background_file_1920 << "img/" << background_num << "_1920.jpg";
+
   //load background img
-  if( !background_texture.load_from_file( "img/vancouver_1280.jpg" ) ) {
+  if( !background_texture.load_from_file( background_file_1280.str().c_str() ) ) {
 		printf( "Failed to load background texture!\n" );
 		success = false;
 	}

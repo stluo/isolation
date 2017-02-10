@@ -2,6 +2,9 @@
 
 //full screen flag
 bool full_screen = false;
+//for background
+std::stringstream background_file_1280;
+std::stringstream background_file_1920;
 //font
 TTF_Font* open_sans = NULL;
 //font outline

@@ -4,7 +4,6 @@
 
 //include dependencies
 #include <cmath>
-#include <sstream>
 #include <iomanip>
 
 //include headers
